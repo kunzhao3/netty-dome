@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ *  每次连接都是一条路，每条路都要看一眼
  *  非堵塞nio
  *  nc ip post
  */
@@ -22,10 +23,11 @@ public class SocketNIO {
             ss.configureBlocking(false);
             //轮询
             while (true){
+                //sleep 1秒钟
                 Thread.sleep(1000);
                 SocketChannel client = ss.accept();//不堵塞
                 if(client==null){
-                    //没有客户端请求返回null
+                    //没有客户端每秒钟控制台打印null
                     System.out.println("null.......");
                 } else {
                     //有客服端请求，同样设置为非堵塞

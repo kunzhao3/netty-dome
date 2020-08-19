@@ -5,8 +5,11 @@ import java.nio.channels.*;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ *
+ */
 public class SocketMultiplexingSingleThread {
-    // {channel,byteBuffer,selector(多路复用器！！)}
+    // {channel(管道),byteBuffer(缓存区),selector(多路复用器！！)}
     private  ServerSocketChannel server;
     private Selector selector;
     int post=9090;
@@ -30,16 +33,19 @@ public class SocketMultiplexingSingleThread {
         System.out.println("serviceStart");
         try{
             while (true){
-                while(selector.select(0)>0){//问内核有没有事件，内核回复有
+                //问内核有没有事件，内核回复有
+                while(selector.select(0)>0){
                     Set<SelectionKey> selectionKeys = selector.selectedKeys();
                     Iterator<SelectionKey> iterator = selectionKeys.iterator();
                     while (iterator.hasNext()){
                         SelectionKey key = iterator.next();
                         iterator.remove();
-
+                        //有客户端连接
                         if (key.isAcceptable()){
                             acceptHandler(key);
-                        } else if(key.isReadable()){
+                        }
+                        //读取客户端发送的信息
+                        else if(key.isReadable()){
                             readHandel(key);
                         }
                     }

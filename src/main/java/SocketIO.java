@@ -17,7 +17,7 @@ public class SocketIO {
             while (true){
                 final Socket client = serverSocket.accept();//堵塞
                 System.out.println("Set2:"+client.getPort());
-                /* //多线程访问
+                /* //线程读取
                 new Thread(){
                     @Override
                     public void run() {
